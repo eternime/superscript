@@ -121,7 +121,9 @@ var messageItorHandle = function (user, system) {
 // the sytem. We put them back together on the other end.
 var messageFactory = function (rawMsg, question, normalize, facts, cb) {
 
-  var messageParts = Utils.sentenceSplit(normalize.clean(rawMsg).trim());
+  // check https://github.com/eternime/superscript/issues/1
+  var messageParts =[normalize.clean(rawMsg).trim()];
+  // var messageParts = Utils.sentenceSplit(normalize.clean(rawMsg).trim());
   messageParts = Utils.cleanArray(messageParts);
 
   var itor = function (messageChunk, next) {
