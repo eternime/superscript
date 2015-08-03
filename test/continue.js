@@ -2,7 +2,8 @@ var mocha = require("mocha");
 var should  = require("should");
 var help = require("./helpers");
 
-describe('Super Script Continue System', function(){
+
+describe('Super Script Continue System aka Conversation', function(){
 
   before(help.before("continue"));
 
@@ -66,7 +67,47 @@ describe('Super Script Continue System', function(){
         });
       });
     });
+  });
 
+  describe("GH-133", function() {
+    it("Threaded Conversation", function(done) {
+      bot.reply("user1", "conversation", function(err, reply) {
+        reply.string.should.eql("Are you happy?");
+        // done();
+        
+        // This is the reply to the conversation
+        bot.reply("user1", "yes", function(err, reply) {
+          reply.string.should.eql("OK, so you are happy");
+
+          // Now we want to break out and fall back to the topic
+          bot.reply("user1", "something else", function(err, reply) {
+            reply.string.should.eql("Random reply");
+            done();
+          });
+        });
+      });
+    });
+
+    it("Threaded Conversation 2", function(done) {
+      bot.reply("user1", "start", function(err, reply) {
+        reply.string.should.eql("What is your name?");
+
+        bot.reply("user1", "My name is Marius Ursache", function(err, reply) {
+          reply.string.should.eql("So your first name is Marius?");
+
+          bot.reply("user1", "Yes", function(err, reply) {
+            reply.string.should.eql("That's a nice name.");
+
+            // Leave thread and go back to topic
+            bot.reply("user1", "something else", function(err, reply) {
+              reply.string.should.eql("Random reply");
+              done();
+            });
+          });
+        });
+      });
+
+    });
   });
 
   after(help.after);
