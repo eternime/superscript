@@ -1,5 +1,7 @@
 [![Build Status](https://travis-ci.org/silentrob/superscript.svg?branch=master)](https://travis-ci.org/silentrob/superscript)
+![Dependancies Status](https://david-dm.org/silentrob/superscript.svg)
 [![Slack chat](https://superscript-slackin.herokuapp.com/badge.svg)](https://superscript-slackin.herokuapp.com/)
+
 # SuperScript
 
 SuperScript is a dialog system + bot engine for creating human-like conversation chat bots. It exposes an expressive script for crafting dialogue and features text-expansion using wordnet and Information Retrieval and extraction using ConceptNet. 
@@ -17,7 +19,7 @@ SuperScript is a dialog system + bot engine for creating human-like conversation
 
 ## Documentation 
 
-Visit [superscriptjs.com](http://superscriptjs.com) for all the details on how to get started playing with SuperScript.
+Visit [superscriptjs.com](http://superscriptjs.com) for all the details on how to get started playing with SuperScript. Or [read the wiki](https://github.com/silentrob/superscript/wiki)
 
 Also make sure you check out and install the [SuperScript Web Editor](https://github.com/silentrob/superscript-editor)
 

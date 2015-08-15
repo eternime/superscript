@@ -1,14 +1,38 @@
-/*
-  Continuation dialogue.
 
-*/
+> topic random2
+
++ new conversation
+- What is your name?
+
+   + [my name is] *1
+   % What is your name
+   - So your first name is <cap1>?
+
+    + ~yes
+    % So your first name is *
+    - Okay good.
+
+    + ~no
+    % So your first name is *
+    - Oh, lets try this again... {@new conversation}
+
+   + *
+   % What is your name
+   - okay nevermind
+
++ break out
+- okay we are free
+
+< topic
+
+
 
 > topic:keep random
 
 + i went to highschool
 - did you finish ?
 
-	+ *
+	+ * what happened
 	% did you finish ?
 	- i went to university
 	- what was it like?
@@ -85,5 +109,4 @@
     + ~no *
     % * so your first name is *
     - I'm a bit confused.
-
 < topic
