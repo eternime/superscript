@@ -9,7 +9,8 @@ var Promise = require('bluebird'),
     rmdir = Promise.promisify( require('rimraf') ),
     program = require('commander'),
     superscript = require('../index'),
-    fs = require("fs");
+    fs = require("fs"),
+    mongoose = require('mongoose');
 
 var collectionsToRemove = ['users', 'topics', 'replies', 'gambits'];
 
@@ -22,6 +23,8 @@ program
   .option('--flush-topics', 'Flush imported topics, implies --skip-remove-all')
   .option('--preserve-random', 'When used with --flush-topics, it will not empty the random topic')
   .parse(process.argv);
+
+var mongoURL = 'mongodb://localhost/' + program.mongo;
 
 function removeAll (db) {
     /**
@@ -39,7 +42,7 @@ function removeAll (db) {
         })
         .then(function() {
             // Delete the old fact system directory
-            return rmdir(program.facts)
+            return rmdir(program.facts);
         });
 }
 
@@ -69,10 +72,16 @@ function createFresh () {
 
         // console.log('Importing', data);
         return new Promise(function(resolve, reject) {
-            new superscript({factSystem: factSystem}, function(err, bot) {
-                if (!err) bot.topicSystem.importerData(data, resolve, program.flushTopics, program.preserveRandom);
-                else reject(err);
-            });
+            mongoose.connect(mongoURL, function(err) {
+              if (!err) {
+                  new superscript({factSystem: factSystem, mongoose: mongoose}, function(err, bot) {
+                      if (!err) bot.topicSystem.importerData(data, resolve, program.flushTopics, program.preserveRandom);
+                      else reject(err);
+                  });
+              } else {
+                  reject(err);
+              }
+          });
         });
     }
 
@@ -80,11 +89,8 @@ function createFresh () {
         .then(importAll);
 }
 
-
 // Setup Mongo Client
-var MongoClient = Promise.promisifyAll( require('mongodb') ).MongoClient,
-    mongoURL = 'mongodb://localhost/' + program.mongo;
-
+var MongoClient = Promise.promisifyAll( require('mongodb') ).MongoClient;
 
 // DO ALL THE THINGS
 MongoClient.connectAsync(mongoURL)
