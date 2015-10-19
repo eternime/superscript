@@ -3,7 +3,7 @@ var should  = require("should");
 var help = require("./helpers");
 var async = require("async");
 
-describe('SuperScript Scripting + Style Interface', function(){
+describe.only('SuperScript Scripting + Style Interface', function(){
   before(help.before("script"));
 
   describe('Simple star Interface *', function(){
@@ -377,10 +377,10 @@ describe('SuperScript Scripting + Style Interface', function(){
 
   describe('Sub-Replies', function(){
     it("Sub replies 1", function(done) {
-      bot.reply("user1", "what color is a rainbow", function(err, reply) {
+      bot.reply("user1", "redirect_rainbow", function(err, reply) {
 
         var r = { string: 'red',
-          topicName: 'random',
+          topicName: 'rainbow',
           subReplies: 
            [ { delay: '500', string: 'orange' },
              { delay: '500', string: 'yellow' },
@@ -397,7 +397,7 @@ describe('SuperScript Scripting + Style Interface', function(){
       bot.reply("user1", "how many colors in the rainbow", function(err, reply) {
 
         var r = { string: '',
-          topicName: 'random',
+          topicName: 'rainbow',
           subReplies: 
            [ { delay: '500', string: 'lots' } ] };
 
