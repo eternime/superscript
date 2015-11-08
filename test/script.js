@@ -766,6 +766,16 @@ describe.only('SuperScript Scripting + Style Interface', function(){
     });
   });
 
+
+  describe("gh-170", function(){
+    it("Function + redirect", function(done){
+      bot.reply("user1", "test plugin redirection", function(err, reply) {
+        reply.string.should.eql("function okay done");
+        done();
+      });
+    });
+  });
+
   after(help.after);
 
 });
