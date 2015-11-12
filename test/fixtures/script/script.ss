@@ -279,9 +279,32 @@
   - {delay=500} lots
 < topic
 
-// GH-170
-+ test plugin redirection
-- ^doSomething() okay {@second}
+// Special topics flow with inline redirection
+> topic __pre__
+  + flow redirection test
+  - Going back. {@first flow match}
+< topic
 
-+ second
-- done
+> topic flow_test
+  + first flow match
+  - {keep} You are in the first reply.
+  + second flow match
+  - You are in the second reply. {@first flow match}
+< topic
+
+// gh-173
++ name
+- {keep} ^respond(set_name)
+
+> topic:keep:system set_name
+  + *
+  - What is your first name?
+
+  + *~5
+  % * is your first name?
+  - ^save(firstName, <cap>) Ok <cap>, what is your last name?
+
+  + *~5
+  % * what is your last name?
+  - ^save(lastName, <cap>) Thanks, ^get(firstName) ^get(lastName)! {topic=random}
+< topic

@@ -30,7 +30,8 @@ describe('Super Script QType Matching', function(){
       });
     });
     
-    it("should reply to QType string B", function(done) {
+    // HUN:ind should be ordered higher up the queue.
+    it("should reply to QType string B (fine grained)", function(done) {
       bot.reply("user1", "Who can clean the house?", function(err, reply) {
         reply.string.should.eql("a");
         done();
@@ -44,15 +45,6 @@ describe('Super Script QType Matching', function(){
       });
     });
 
-  });
-
-  describe('Advanced Question Matching (fine grained)', function(){
-    it("should match fine grained results", function(done){
-      bot.reply("user1", "Who looks like Matt Damon?", function(err, reply) {
-        reply.string.should.eql("a");
-        done();
-      });
-    });
   });
 
   after(help.after);
