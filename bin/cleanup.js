@@ -10,13 +10,16 @@ var Promise = require('bluebird'),
     program = require('commander'),
     superscript = require('../index'),
     fs = require("fs"),
-    mongoose = require('mongoose');
+    mongoose = require('mongoose'),
+    util = require('util');
 
 var collectionsToRemove = ['users', 'topics', 'replies', 'gambits'];
 
 program
   .version('0.0.1')
   .option('--facts [type]', 'Fact Directory', './systemDB')
+  .option('--host [type]', 'Mongo Host', 'localhost')
+  .option('--port [type]', 'Mongo Port', '27017')
   .option('--mongo [type]', 'Mongo Database Name', 'systemDB')
   .option('--topic [type]', 'Topic Directory', './topics')
   .option('--skip-remove-all', 'Skip removal of: ' + collectionsToRemove.join(', '))
@@ -24,7 +27,7 @@ program
   .option('--preserve-random', 'When used with --flush-topics, it will not empty the random topic')
   .parse(process.argv);
 
-var mongoURL = 'mongodb://localhost/' + program.mongo;
+var mongoURL = 'mongodb://' + program.host + ':'  + program.port + '/' + program.mongo;
 
 function removeAll (db) {
     /**
